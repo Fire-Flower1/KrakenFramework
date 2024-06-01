@@ -11,6 +11,8 @@ def directory_structure_to_dict(directory, current_id=[0]):
         path = root.split(os.sep)
         if root == directory:
             for subdir in dirs:
+                if subdir == '__pycache__':
+                    continue
                 subdir_path = os.path.join(root, subdir)
                 subdir_id = current_id[0]
                 current_id[0] += 1
@@ -21,6 +23,8 @@ def directory_structure_to_dict(directory, current_id=[0]):
                                                        os.path.isfile(os.path.join(subdir_path, file))]
         else:
             for subdir in dirs:
+                if subdir == '__pycache__':
+                    continue
                 subdir_path = os.path.join(root, subdir)
                 subdir_id = current_id[0]
                 current_id[0] += 1
@@ -43,4 +47,14 @@ def save_directory_structure_to_json(directory, output_file):
 
 
 if __name__ == "__main__":
-    save_directory_structure_to_json(".\\modules", "DirInfo.json")
+    import argparse
+
+    parser = argparse.ArgumentParser(
+        description="Save the subdirectories and files in those subdirectories in a JSON file with unique id-numbers for subdirectories.")
+    parser.add_argument("directory", help="The directory to scan")
+    parser.add_argument("output_file", help="The output JSON file")
+
+    args = parser.parse_args()
+
+    save_directory_structure_to_json(args.directory, args.output_file)
+
