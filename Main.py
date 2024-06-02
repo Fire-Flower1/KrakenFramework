@@ -4,15 +4,7 @@ from JsonManager import save_directory_structure_to_json
 import configparser
 import json
 
-
 print("""
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
                                                 ...                                                 
                                         ....+@@@@@@@@@@+...                                         
                                        ..#@@@@@@@@@@@@@@@@#.                                        
@@ -58,14 +50,6 @@ print("""
                                     The Kraken Framework V0.0.1
 """)
 
-
-
-
-
-
-
-
-
 save_directory_structure_to_json(".\\KrakenModules", "DirInfo.json")
 
 config_files = {}
@@ -85,19 +69,21 @@ for i in data['modules']:
 
 for i in range(len(config_files)):
     config.read(config_files[i])
-    print(f"{i} : {config["DEFAULT"]['name']}")
+    print(f"{i} : {config['DEFAULT']['name']}")
 
 while True:
 
     selectedModule = input("which module to use: ")
-
-    if selectedModule == "exit" or selectedModule == "Exit":
-        print("Thanks for shopping with us!")
-        break
-    else:
-        spec = importlib.util.spec_from_file_location("main", main_files[int(selectedModule)])
-        module = importlib.util.module_from_spec(spec)
-        spec.loader.exec_module(module)
-        module.main()
+    try:
+        if selectedModule == "exit" or selectedModule == "Exit":
+            print("Thanks for shopping with us!")
+            break
+        else:
+            spec = importlib.util.spec_from_file_location("main", main_files[int(selectedModule)])
+            module = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(module)
+            module.main()
+    except Exception as e:
+        print(f"something went wrong, are you sure you picked an existing module? \n{e}")
 
 jsonFile.close()
