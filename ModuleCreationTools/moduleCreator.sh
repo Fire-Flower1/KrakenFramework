@@ -2,5 +2,6 @@
 
 name=$1
 
-# shellcheck disable=SC2164
-cd ..
+mkdir ../KrakenModules/$name
+cp ./templateFiles/main.py ../KrakenModules/$name/main.py
+cp ./templateFiles/module.ini ../KrakenModules/$name/module.ini
